@@ -1,6 +1,6 @@
 <?php
 
-$accounts = mysqli_connect("ec2-54-212-208-231.us-west-2.compute.amazonaws.com", "accounts", "b29f856cb9acc", "accounts");
+$accounts = mysqli_connect("localhost", "root", "Smucker77", "accounts");
 
 $username = $_GET['name'];
 $password = $_GET['pass']; 

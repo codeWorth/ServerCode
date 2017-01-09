@@ -2,7 +2,7 @@
 
 $userID = $_POST['id'];
 
-$accounts = mysqli_connect("ec2-54-212-208-231.us-west-2.compute.amazonaws.com", "accounts", "b29f856cb9acc", "accounts");
+$accounts = mysqli_connect("localhost", "root", "Smucker77", "accounts");
 
 $stmt = $accounts->prepare("SELECT * FROM players WHERE `ID`= ?");
 $stmt->bind_param('s', $userID);
