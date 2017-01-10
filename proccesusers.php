@@ -1,7 +1,7 @@
 <?php
 
 echo "Connecting to server... <br/>";
-$db = mysqli_connect("http://ubuntu@ec2-54-212-208-231.us-west-2.compute.amazonaws.com", "defaultUser", "YHHQte6UXP26cFpe", "mm_queue");
+$db = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "mm_queue");
 
 echo "Getting queries... <br/>";
 $queries = mysqli_query($db, "SELECT * FROM queries");

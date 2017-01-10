@@ -1,7 +1,7 @@
 <?php
 
 echo "Connecting to server... <br/>";
-$db = mysqli_connect("http://ubuntu@ec2-54-212-208-231.us-west-2.compute.amazonaws.com", "defaultUser", "YHHQte6UXP26cFpe", "accounts");
+$db = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "accounts");
 
 $usr_ID = $_POST['id'];
 
