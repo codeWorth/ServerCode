@@ -1,7 +1,7 @@
 <?php
 
 echo "Connecting to server... <br/>";
-$db = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "mm_queue");
+$db = mysqli_connect("localhost", "user", "tgCTG8jj9Ab8UuVj", "mm_queue");
 
 echo "Getting queries... <br/>";
 $queries = mysqli_query($db, "SELECT * FROM queries");

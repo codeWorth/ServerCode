@@ -1,6 +1,6 @@
 <?php
 
-$db = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "mm_queue");
+$db = mysqli_connect("localhost", "user", "tgCTG8jj9Ab8UuVj", "mm_queue");
 
 $ID = $_POST['id'];
 

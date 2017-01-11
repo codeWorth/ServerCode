@@ -1,7 +1,7 @@
 <?php
 
 echo "Connecting to server... <br/>";
-$db = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "accounts");
+$db = mysqli_connect("localhost", "user", "tgCTG8jj9Ab8UuVj", "accounts");
 
 $usr_ID = $_POST['id'];
 

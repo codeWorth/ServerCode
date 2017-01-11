@@ -1,7 +1,7 @@
 <?php
 
 echo "Connecting...";
-$accounts = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "accounts");
+$accounts = mysqli_connect("localhost", "user", "tgCTG8jj9Ab8UuVj", "accounts");
 
 $username = $_POST['name'];
 $password = $_POST['pass']; 
