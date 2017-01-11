@@ -2,8 +2,8 @@
 
 $accounts = mysqli_connect("localhost", "user", "tgCTG8jj9Ab8UuVj", "accounts");
 
-$username = $_GET['name'];
-$password = $_GET['pass']; 
+$username = $_POST['name'];
+$password = $_POST['pass']; 
 
 $stmt = $accounts->prepare("SELECT * FROM players WHERE `Username`= ?");
 $stmt->bind_param('s', $username);
