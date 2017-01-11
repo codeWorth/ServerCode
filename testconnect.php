@@ -2,11 +2,11 @@
 
 echo "lel";
 
-$accounts = mysqli_connect("localhost", "defaultUser", "YHHQte6UXP26cFpe", "accounts");
-$sql = "SELECT * FROM players;"
+$accounts = mysqli_connect("localhost", "user", "tgCTG8jj9Ab8UuVj", "accounts");
+$sql = "SELECT * FROM players;";
 
 echo "lul";
 
-echo(mysqil_query($sql, $accounts));
+echo(mysqli_fetch_row(mysqli_query($accounts, $sql)));
 
 ?>
