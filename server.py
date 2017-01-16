@@ -91,7 +91,7 @@ class IphoneClient(Protocol):
         print("Player", self, "added to queries")
         mm_queries.append(self)
         
-        for player in mm_queries:
+        for player in mm_queries[:-1]:
             if (player.rank == self.rank):
                 game = Game(self, player)
                 mm_requests.append(game)
