@@ -70,6 +70,7 @@ class IphoneClient(Protocol):
         self.factory.clients.remove(self)
 
     def dataReceived(self, data):
+        print(data)
         if(data[0] == "<"):
             self.processControlMessage(data[1:])
         elif(data[0] == ">"):
