@@ -79,7 +79,7 @@ class IphoneClient(Protocol):
             self.processQueueMessage(data)
 
     def message(self, message):
-        self.transport.write(message, '\n')
+        self.transport.write(message + '\n')
 
     def processControlMessage(self, message):
         print("oops")
