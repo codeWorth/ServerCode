@@ -55,6 +55,12 @@ class Game:
         else:
             return False
 
+    def playerAccepted(self, player):
+        if (player == self.player1):
+            self.accepted1 = True
+        elif (player == self.player2):
+            self.accepted2 = True
+
 class IphoneClient(Protocol):
     rank = 0
     name = ""
@@ -70,7 +76,6 @@ class IphoneClient(Protocol):
         self.factory.clients.remove(self)
 
     def dataReceived(self, data):
-        print(data[0])
         if(data[0] == "<"):
             self.processControlMessage(data)
         elif(data[0] == ">"):
@@ -128,7 +133,7 @@ mm_games = []
 
 def gameContainingPlayer(listOfGames, player):
     for game in listOfGames:
-        if (game.hasPLayer(player)):
+        if (game.hasPlayer(player)):
             return game
 
     return
