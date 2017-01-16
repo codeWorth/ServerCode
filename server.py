@@ -79,7 +79,7 @@ class IphoneClient(Protocol):
             self.processQueueMessage(data)
 
     def message(self, message):
-        self.transport.write(message + '\n')
+        self.transport.write(message, '\n')
 
     def processControlMessage(self, message):
         print("oops")
@@ -88,7 +88,6 @@ class IphoneClient(Protocol):
         print("oops")
 
     def attemptMatchPlayer(self):
-        print("attempting to match player with name ", self.name, " and rank ", self.rank)
         for player in mm_queries:
             if (player.rank == self.rank):
                 game = Game(self, player)
@@ -98,10 +97,10 @@ class IphoneClient(Protocol):
 
                 self.message("j")
                 player.message("j")
-                print("Match request created, players: ", self, ", ", player)
+                print("Match request created, players:", self, player)
                 return
 
-        print("Player ", self, "added to queries")
+        print("Player", self, "added to queries")
         mm_queries.append(self)
 
     def processQueueMessage(self, message):
@@ -118,9 +117,9 @@ class IphoneClient(Protocol):
             game = gameContainingPlayer(mm_requests, self)
             if (game):
                 game.playerAccepted(self)
-                print("Player ", self, " accepted game request")
+                print("Player", self, "accepted game request")
             else:
-                print("Error, no game in list for player ", self)
+                print("Error, no game in list for player", self)
 
 
 mm_queries = []
