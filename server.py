@@ -100,7 +100,8 @@ class IphoneClient(Protocol):
         self.transport.write(message + '\n')
 
     def processControlMessage(self, message):
-        print("oops")
+        if (message[1] == "p"):
+            self.game.recievedConfirm(self)
 
     def processGameMessage(self, message):
         self.game.addMessage(self, message)
