@@ -10,6 +10,8 @@ class Game:
         self.history = []
         self.canSend1 = True
         self.canSend2 = True
+        self.accepted1 = False
+        self.accepted2 = False
 
     def tryPopPending1(self):
         if (self.canSend1 and len(self.player1Pending) > 0):
@@ -47,7 +49,16 @@ class Game:
         self.canSend2 = True
         self.tryPopPending2()
 
-class IphoneChat(Protocol):
+    def hasPlayer(self, player):
+        if (player == self.player1 or player == self.player2):
+            return True
+        else:
+            return False
+
+class IphoneClient(Protocol):
+    rank = 0
+    name = ""
+    
     def connectionMade(self):
         print "a client connected"
 
@@ -64,20 +75,66 @@ class IphoneChat(Protocol):
         elif(data[0] == ">"):
             self.processGameMessage(data[1:])
         elif(data[0] == "^"):
-            self.processQueueMessage(data[1:)
+            self.processQueueMessage(data[1:])
 
     def message(self, message):
         self.transport.write(message + '\n')
 
     def processControlMessage(self, message):
 
+
     def processGameMessage(self, message):
 
-    def processQueueMessage(self, message):
 
+    def attemptMatchPlayer(self):
+        for player in mm_queries:
+            if (player.rank == self.rank):
+                game = Game(self, player)
+                mm_requests.append(game)
+                mm_queries.remove(self)
+                mm_queries.remove(player)
+
+                self.message("j")
+                player.message("j")
+                print("Match request created, players: ", self, ", ", player)
+                return
+
+        print("Player ", self, "added to queries")
+        mm_queries.append(self)
+
+    def processQueueMessage(self, message):
+        if (message[1] == 'n') {
+            parts = message.split("u")
+            info = parts[0]
+            username = parts[1]
+            
+            self.rank = int(info[2:])
+            self.name = username
+
+            self.attemptMatchPlayer()
+        } elif (message[1] == 'a'):
+            game = gameContainingPlayer(mm_requests, self)
+            if (game):
+                game.playerAccepted(self)
+                print("Player ", self, " accepted game request")
+            else:
+                print("Error, no game in list for player ", self)
+
+
+mm_queries = []
+mm_requests = []
+mm_games = []
+
+def gameContainingPlayer(listOfGames, player):
+    for game in listOfGames:
+        if (game.hasPLayer(player)):
+            return game
+
+    return
+                                     
 factory = Factory()
 factory.clients = []
-factory.protocol = IphoneChat
+factory.protocol = IphoneClient
 reactor.listenTCP(80, factory)
-print "Iphone Chat server started"
+print "Iphone server started"
 reactor.run()
