@@ -63,7 +63,7 @@ class Game:
             print("p2 accept")
             self.accepted2 = True
 
-        if (self.player1 and self.player2):
+        if (self.accepted1 and self.accepted2):
             mm_games.append(self)
             mm_requests.remove(self)
             print("Player",self.player1,"and other player",self.player2,"joined a match")
