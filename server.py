@@ -161,7 +161,6 @@ class IphoneClient(Protocol):
             if (self.game == None):
                 mm_queries.remove(self)
             else:
-                mm_requests.remove(self.game)
                 self.game.endGame("r")
 
 
