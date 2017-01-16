@@ -70,13 +70,13 @@ class IphoneClient(Protocol):
         self.factory.clients.remove(self)
 
     def dataReceived(self, data):
-        print(data)
+        print(data[0])
         if(data[0] == "<"):
-            self.processControlMessage(data[1:])
+            self.processControlMessage(data)
         elif(data[0] == ">"):
-            self.processGameMessage(data[1:])
+            self.processGameMessage(data)
         elif(data[0] == "^"):
-            self.processQueueMessage(data[1:])
+            self.processQueueMessage(data)
 
     def message(self, message):
         self.transport.write(message + '\n')
