@@ -88,6 +88,9 @@ class IphoneClient(Protocol):
         print("oops")
 
     def attemptMatchPlayer(self):
+        print("Player", self, "added to queries")
+        mm_queries.append(self)
+        
         for player in mm_queries:
             if (player.rank == self.rank):
                 game = Game(self, player)
@@ -99,9 +102,6 @@ class IphoneClient(Protocol):
                 player.message("j")
                 print("Match request created, players:", self, player)
                 return
-
-        print("Player", self, "added to queries")
-        mm_queries.append(self)
 
     def processQueueMessage(self, message):
         if (message[1] == 'n'):
