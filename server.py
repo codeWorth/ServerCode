@@ -12,6 +12,9 @@ class Game:
         self.canSend2 = True
         self.accepted1 = False
         self.accepted2 = False
+        self.player1.game = self
+        self.player1.isP1 = True
+        self.player2.game = self
 
     def tryPopPending1(self):
         if (self.canSend1 and len(self.player1Pending) > 0):
@@ -33,21 +36,22 @@ class Game:
             
             self.canSend2 = False
 
-    def addMessageFrom1(self, message):
-        self.player2Pending.append(message)
-        self.tryPopPending2()
-
-    def addMessageFrom2(self, message):
-        self.player1Pending.append(message)
-        self.tryPopPending1()
-
-    def recievedConfirm1(self):
-        self.canSend1 = True
-        self.tryPopPending1()
-
-    def recievedConfirm2(self):
-        self.canSend2 = True
-        self.tryPopPending2()
+    def addMessage(self, player, message):
+        if (player.isP1):
+            self.player2Pending.append(message)
+            self.tryPopPending2()
+        else:
+            self.player1Pending.append(message)
+            self.tryPopPending1()
+        
+    def recievedConfirm(self, player):
+        if (player.isP1):
+            self.canSend1 = True
+            self.tryPopPending1()
+        else:
+            self.canSend2 = True
+            self.tryPopPending2()
+        
 
     def hasPlayer(self, player):
         if (player == self.player1 or player == self.player2):
@@ -56,10 +60,10 @@ class Game:
             return False
 
     def playerAccepted(self, player):
-        if (player == self.player1):
+        if (self.player1.isP1):
             print("p1 accept")
             self.accepted1 = True
-        elif (player == self.player2):
+        else:
             print("p2 accept")
             self.accepted2 = True
 
@@ -71,6 +75,8 @@ class Game:
 class IphoneClient(Protocol):
     rank = 0
     name = ""
+    game = None
+    isP1 = False
     
     def connectionMade(self):
         print("a client connected")
@@ -97,7 +103,7 @@ class IphoneClient(Protocol):
         print("oops")
 
     def processGameMessage(self, message):
-        print("oops")
+        self.game.addMessage(self, message)
 
     def attemptMatchPlayer(self):
         print("Player", self, "added to queries")
@@ -126,10 +132,9 @@ class IphoneClient(Protocol):
 
             self.attemptMatchPlayer()
         elif (message[1] == 'a'):
-            game = gameContainingPlayer(mm_requests, self)
-            if (game):
-                game.playerAccepted(self)
+            if (self.game):
                 print("Player", self, "accepted game request")
+                self.game.playerAccepted(self)
             else:
                 print("Error, no game in list for player", self)
 
@@ -137,13 +142,6 @@ class IphoneClient(Protocol):
 mm_queries = []
 mm_requests = []
 mm_games = []
-
-def gameContainingPlayer(listOfGames, player):
-    for game in listOfGames:
-        if (game.hasPlayer(player)):
-            return game
-
-    return
                                      
 factory = Factory()
 factory.clients = []
