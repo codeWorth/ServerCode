@@ -1,5 +1,5 @@
-from twisted.internet.protocol import Factory, Protocol from
-twisted.internet import reactor
+from twisted.internet.protocol import Factory, Protocol
+from twisted.internet import reactor
 
 class Game:
     def __init__(self, player1, player2):
@@ -60,11 +60,11 @@ class IphoneClient(Protocol):
     name = ""
     
     def connectionMade(self):
-        print "a client connected"
+        print("a client connected")
 
     def connectionMade(self):
         self.factory.clients.append(self)
-        print "clients are ", self.factory.clients
+        print("clients are ", self.factory.clients)
 
     def connectionLost(self, reason):
         self.factory.clients.remove(self)
@@ -81,10 +81,10 @@ class IphoneClient(Protocol):
         self.transport.write(message + '\n')
 
     def processControlMessage(self, message):
-
+        print("oops")
 
     def processGameMessage(self, message):
-
+        print("oops")
 
     def attemptMatchPlayer(self):
         for player in mm_queries:
@@ -103,7 +103,7 @@ class IphoneClient(Protocol):
         mm_queries.append(self)
 
     def processQueueMessage(self, message):
-        if (message[1] == 'n') {
+        if (message[1] == 'n'):
             parts = message.split("u")
             info = parts[0]
             username = parts[1]
@@ -112,7 +112,7 @@ class IphoneClient(Protocol):
             self.name = username
 
             self.attemptMatchPlayer()
-        } elif (message[1] == 'a'):
+        elif (message[1] == 'a'):
             game = gameContainingPlayer(mm_requests, self)
             if (game):
                 game.playerAccepted(self)
@@ -136,5 +136,5 @@ factory = Factory()
 factory.clients = []
 factory.protocol = IphoneClient
 reactor.listenTCP(80, factory)
-print "Iphone server started"
+print("Iphone server started")
 reactor.run()
