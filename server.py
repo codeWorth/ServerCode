@@ -20,7 +20,7 @@ class Game:
         if (message[1] == "q"):
             self.endGame(message)
         elif (message[1] == "e"):
-            self.destPlayer.message("<s")
+            destPlayer.message("<s")
 
     def tryPopPending1(self):
         if (self.canSend1 and len(self.player1Pending) > 0):
