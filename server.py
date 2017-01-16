@@ -57,9 +57,16 @@ class Game:
 
     def playerAccepted(self, player):
         if (player == self.player1):
+            print("p1 accept")
             self.accepted1 = True
         elif (player == self.player2):
+            print("p2 accept")
             self.accepted2 = True
+
+        if (self.player1 and self.player2):
+            mm_games.append(self)
+            mm_requests.remove(self)
+            print("Player",self.player1,"and other player",self.player2,"joined a match")
 
 class IphoneClient(Protocol):
     rank = 0
