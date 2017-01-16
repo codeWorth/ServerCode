@@ -88,6 +88,7 @@ class IphoneClient(Protocol):
         print("oops")
 
     def attemptMatchPlayer(self):
+        print("attempting to match player with name ", self.name, " and rank ", self.rank)
         for player in mm_queries:
             if (player.rank == self.rank):
                 game = Game(self, player)
