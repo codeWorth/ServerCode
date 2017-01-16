@@ -75,6 +75,8 @@ class Game:
     def endGame(self, endMessage):
         self.player1.message(endMessage)
         self.player2.message(endMessage)
+
+        print(self.accepted1, self.accepted2)
         
         if (self.accepted1 and self.accepted2):
             mm_games.remove(self)
