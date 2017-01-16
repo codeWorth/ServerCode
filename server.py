@@ -60,7 +60,7 @@ class Game:
             return False
 
     def playerAccepted(self, player):
-        if (self.player1.isP1):
+        if (player.isP1):
             print("p1 accept")
             self.accepted1 = True
         else:
@@ -133,7 +133,6 @@ class IphoneClient(Protocol):
             self.attemptMatchPlayer()
         elif (message[1] == 'a'):
             if (self.game):
-                print("Player", self, "accepted game request")
                 self.game.playerAccepted(self)
             else:
                 print("Error, no game in list for player", self)
