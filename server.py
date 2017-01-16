@@ -73,13 +73,15 @@ class Game:
             print("Player",self.player1,"and other player",self.player2,"joined a match")
 
     def endGame(self, endMessage):
+        print(mm_requests)
+        
         self.player1.message(endMessage)
         self.player2.message(endMessage)
         
         if (self.accepted1 and self.accepted2):
-            mm_requests.remove(self)
-        else:
             mm_games.remove(self)
+        else:
+            mm_requests.remove(self)
             
 
         self.player1.reset()
