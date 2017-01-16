@@ -16,13 +16,21 @@ class Game:
         self.player1.isP1 = True
         self.player2.game = self
 
+    def processMessageOnSend(self, message, destPlayer):
+        if (msg[1] == "q"):
+            self.endGame(message)
+        elif (msg[1] == "e"):
+            self.destPlayer.message("<s")
+
     def tryPopPending1(self):
         if (self.canSend1 and len(self.player1Pending) > 0):
             msg = self.player1Pending.pop(0)
             
-            self.player1.transport.write(msg + "\n")
             if (msg[0] == ">"):
+                self.player1.message(msg)
                 self.history.append(msg)
+            elif (msg[0] == "<"):
+                self.processMessageOnSend(msg, self.player1)
             
             self.canSend1 = False
 
@@ -30,9 +38,12 @@ class Game:
         if (self.canSend2 and len(self.player2Pending) > 0):
             msg = self.player2Pending.pop(0)
             
-            self.player2.transport.write(msg + "\n")
             if (msg[0] == ">"):
+                self.player2.message(msg)
                 self.history.append(msg)
+            elif (msg[0] == "<"):
+                self.processMessageOnSend(msg, self.player2)
+                
             
             self.canSend2 = False
 
@@ -61,19 +72,20 @@ class Game:
 
     def playerAccepted(self, player):
         if (player.isP1):
-            print("p1 accept")
+            print("P1",player,"accepted")
             self.accepted1 = True
         else:
-            print("p2 accept")
+            print("P2",player,"accepted")
             self.accepted2 = True
 
         if (self.accepted1 and self.accepted2):
             mm_games.append(self)
             mm_requests.remove(self)
-            print("Player",self.player1,"and other player",self.player2,"joined a match")
+            self.player1.message("c")
+            self.player1.message("c")
 
     def endGame(self, endMessage):
-        print(mm_requests)
+        print("Ending game",self)
         
         self.player1.message(endMessage)
         self.player2.message(endMessage)
@@ -117,6 +129,9 @@ class IphoneClient(Protocol):
     def processControlMessage(self, message):
         if (message[1] == "p"):
             self.game.recievedConfirm(self)
+        else:
+            self.game.addMessage(self, message)
+        
 
     def processGameMessage(self, message):
         self.game.addMessage(self, message)
