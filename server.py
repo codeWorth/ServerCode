@@ -17,9 +17,9 @@ class Game:
         self.player2.game = self
 
     def processMessageOnSend(self, message, destPlayer):
-        if (msg[1] == "q"):
+        if (message[1] == "q"):
             self.endGame(message)
-        elif (msg[1] == "e"):
+        elif (message[1] == "e"):
             self.destPlayer.message("<s")
 
     def tryPopPending1(self):
@@ -82,7 +82,7 @@ class Game:
             mm_games.append(self)
             mm_requests.remove(self)
             self.player1.message("c")
-            self.player1.message("c")
+            self.player2.message("c")
 
     def endGame(self, endMessage):
         print("Ending game",self)
