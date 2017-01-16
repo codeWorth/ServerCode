@@ -135,6 +135,6 @@ def gameContainingPlayer(listOfGames, player):
 factory = Factory()
 factory.clients = []
 factory.protocol = IphoneClient
-reactor.listenTCP(80, factory)
+reactor.listenTCP(800, factory)
 print("Iphone server started")
 reactor.run()
