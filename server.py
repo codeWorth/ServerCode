@@ -72,6 +72,18 @@ class Game:
             mm_requests.remove(self)
             print("Player",self.player1,"and other player",self.player2,"joined a match")
 
+    def endGame(self, endMessage):
+        self.player1.message(endMessage)
+        self.player2.message(endMessage)
+        
+        if (self.accepted1 and self.accepted2):
+            mm_games.remove(self)
+        else:
+            mm_requests.remove(self)
+
+        self.player1.reset()
+        self.player2.reset()
+
 class IphoneClient(Protocol):
     rank = 0
     name = ""
@@ -122,6 +134,10 @@ class IphoneClient(Protocol):
                 print("Match request created, players:", self, player)
                 return
 
+    def reset(self):
+        self.game = None
+        self.isP1 = False
+
     def processQueueMessage(self, message):
         if (message[1] == 'n'):
             parts = message.split("u")
@@ -137,6 +153,13 @@ class IphoneClient(Protocol):
                 self.game.playerAccepted(self)
             else:
                 print("Error, no game in list for player", self)
+
+        elif (message[1] == 'c'):
+            if (self.game == None):
+                mm_queries.remove(self)
+            else:
+                mm_requests.remove(self.game)
+                self.game.endGame("r")
 
 
 mm_queries = []
