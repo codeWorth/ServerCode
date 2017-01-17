@@ -5,41 +5,40 @@ import random
 
 cyclesToWidenSearch = 5
 
-timeout = 60.0  # Sixty seconds
-
+timeout = 60.0 # Sixty seconds
 
 def cycleMmQueries():
     i = 0
     while (i < len(mm_queries)):
 
         player1 = mm_queries[i]
-        j = i + 1
-        while (j < len(mm_queries)):
-
+        j = i+1
+	while (j < len(mm_queries)):
+            
             player2 = mm_queries[j]
             thisRankDif = abs(player1.rank - player2.rank)
-
+            
             if (thisRankDif <= player1.wantedRankDifference and thisRankDif <= player2.wantedRankDifference):
-                print("P1 Rank:", player.rank)
+                print("P1 Rank:", player.rank) 
                 print("P2 Rank:", self.rank)
-
+                
                 game = Game(self, player)
-
-                mm_requests.append(game)
-                mm_queries.remove(self)
+                
+                mm_requests.append(game) 
+                mm_queries.remove(self) 
                 mm_queries.remove(player)
 
-                j = i + 1
+                j = i+1
                 player1 = mm_queue[i]
             else:
                 j += 1
 
     for player in mm_queries:
-        player.wantedRankDifference += 1.0 / cyclesToWidenSearch
+        player.wantedRankDifference += 1.0/cyclesToWidenSearch
+                
 
-
+                
 class Game:
-
     def __init__(self, player1, player2):
         self.player1 = player1
         self.player2 = player2
@@ -63,7 +62,7 @@ class Game:
     def tryPopPending1(self):
         if (self.canSend1 and len(self.player1Pending) > 0):
             msg = self.player1Pending.pop(0)
-
+            
             if (msg[0] == ">"):
                 self.player1.message(msg)
                 self.history.append(msg)
@@ -71,13 +70,13 @@ class Game:
                 self.processMessageOnSend(msg, self.player1)
             else:
                 self.player1.message(msg)
-
+            
             self.canSend1 = False
 
     def tryPopPending2(self):
         if (self.canSend2 and len(self.player2Pending) > 0):
             msg = self.player2Pending.pop(0)
-
+            
             if (msg[0] == ">"):
                 self.player2.message(msg)
                 self.history.append(msg)
@@ -85,7 +84,8 @@ class Game:
                 self.processMessageOnSend(msg, self.player2)
             else:
                 self.player2.message(msg)
-
+                
+            
             self.canSend2 = False
 
     def addMessage(self, player, message):
@@ -95,7 +95,7 @@ class Game:
         else:
             self.player1Pending.append(message)
             self.tryPopPending1()
-
+        
     def recievedConfirm(self, player):
         if (player.isP1):
             self.canSend1 = True
@@ -103,6 +103,7 @@ class Game:
         else:
             self.canSend2 = True
             self.tryPopPending2()
+        
 
     def hasPlayer(self, player):
         if (player == self.player1 or player == self.player2):
@@ -112,10 +113,10 @@ class Game:
 
     def playerAccepted(self, player):
         if (player.isP1):
-            print("P1", player, "accepted")
+            print("P1",player,"accepted")
             self.accepted1 = True
         else:
-            print("P2", player, "accepted")
+            print("P2",player,"accepted")
             self.accepted2 = True
 
         if (self.accepted1 and self.accepted2):
@@ -133,19 +134,19 @@ class Game:
                 self.addMessage(self.player2, "<e")
 
     def endGame(self, endMessage):
-        print("Ending game", self)
-
+        print("Ending game",self)
+        
         self.player1.message(endMessage)
         self.player2.message(endMessage)
-
+        
         if (self.accepted1 and self.accepted2):
             mm_games.remove(self)
         else:
             mm_requests.remove(self)
+            
 
         self.player1.reset()
         self.player2.reset()
-
 
 class IphoneClient(Protocol):
     rank = 0
@@ -153,7 +154,7 @@ class IphoneClient(Protocol):
     ID = 0
     game = None
     isP1 = False
-
+    
     def connectionMade(self):
         print("a client connected")
 
@@ -182,6 +183,7 @@ class IphoneClient(Protocol):
             self.game.recievedConfirm(self)
         else:
             self.game.addMessage(self, message)
+        
 
     def processGameMessage(self, message):
         self.game.addMessage(self, message)
@@ -190,8 +192,6 @@ class IphoneClient(Protocol):
         print("Player", self, "added to queries")
         self.wantedRankDifference = 0.0
         mm_queries.append(self)
-
-    def searchForMatch(maxRankDif)
 
     def reset(self):
         self.game = None
@@ -220,7 +220,7 @@ class IphoneClient(Protocol):
 mm_queries = []
 mm_requests = []
 mm_games = []
-
+                                     
 factory = Factory()
 factory.clients = []
 factory.protocol = IphoneClient
@@ -228,6 +228,6 @@ reactor.listenTCP(800, factory)
 print("Iphone server started")
 
 mmCycle = task.LoopingCall(cycleMmQueries)
-mmCycle.start(3.0)  # call every 3 seconds
+mmCycle.start(3.0) # call every 3 seconds
 
 reactor.run()
