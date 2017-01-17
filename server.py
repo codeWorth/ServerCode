@@ -29,7 +29,7 @@ def cycleMmQueries():
 
                 j = i+1
 
-                if (i < len(mm_queries):
+                if (i < len(mm_queries)):
                     player1 = mm_queries[i]
                     
             else:
