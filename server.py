@@ -24,9 +24,9 @@ def cycleMmQueries():
                 mm_queries.remove(player1)
                 mm_queries.remove(player2)
 
-                self.message("j")
-                player.message("j")
-                print("Match request created, players:", self, player)
+                player1.message("j")
+                player2.message("j")
+                print("Match request created, players:", player1, player2)
 
                 j = i+1
 
