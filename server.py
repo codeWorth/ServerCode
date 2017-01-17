@@ -18,8 +18,8 @@ def cycleMmQueries():
             thisRankDif = abs(player1.rank - player2.rank)
 
             if (thisRankDif <= player1.wantedRankDifference and thisRankDif <= player2.wantedRankDifference):
-                print("P1 Rank:", player.rank)
-                print("P2 Rank:", self.rank)
+                print("P1 Rank:", player1.rank)
+                print("P2 Rank:", player2.rank)
 
                 game = Game(self, player)
 
