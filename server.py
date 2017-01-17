@@ -173,11 +173,7 @@ class IphoneClient(Protocol):
 
     def processQueueMessage(self, message):
         if (message[1] == 'n'):
-            parts = message.split("u")
-            info = parts[0]
-            username = parts[1]
-            
-            self.rank = int(info[2:])
+            self.rank = int(message[2:])
 
             self.attemptMatchPlayer()
         elif (message[1] == 'a'):
