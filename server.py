@@ -1,7 +1,43 @@
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
+from twisted.internet import task
 import random
 
+cyclesToWidenSearch = 5
+
+timeout = 60.0 # Sixty seconds
+
+def cycleMmQueries():
+    i = 0
+    while (i < len(mm_queries)):
+
+        player1 = mm_queries[i]
+        j = i+1
+	while (j < len(mm_queries)):
+            
+            player2 = mm_queries[j]
+            thisRankDif = abs(player1.rank - player2.rank)
+            
+            if (thisRankDif <= player1.wantedRankDifference and thisRankDif <= player2.wantedRankDifference):
+                print("P1 Rank:", player.rank) 
+                print("P2 Rank:", self.rank)
+                
+                game = Game(self, player)
+                
+                mm_requests.append(game) 
+                mm_queries.remove(self) 
+                mm_queries.remove(player)
+
+                j = i+1
+                player1 = mm_queue[i]
+            else:
+                j += 1
+
+    for player in mm_queries:
+        player.wantedRankDifference += 1.0/cyclesToWidenSearch
+                
+
+                
 class Game:
     def __init__(self, player1, player2):
         self.player1 = player1
@@ -114,6 +150,7 @@ class Game:
 
 class IphoneClient(Protocol):
     rank = 0
+    wantedRankDifference = 0.0
     ID = 0
     game = None
     isP1 = False
@@ -153,22 +190,10 @@ class IphoneClient(Protocol):
 
     def attemptMatchPlayer(self):
         print("Player", self, "added to queries")
+        self.wantedRankDifference = 0.0
         mm_queries.append(self)
-        
-        for player in mm_queries[:-1]:
-            if (player.rank == self.rank):
-                print("P1 Rank:", player.rank)
-                print("P2 Rank:", self.rank)
-                
-                game = Game(self, player)
-                mm_requests.append(game)
-                mm_queries.remove(self)
-                mm_queries.remove(player)
 
-                self.message("j")
-                player.message("j")
-                print("Match request created, players:", self, player)
-                return
+    def searchForMatch(maxRankDif)
 
     def reset(self):
         self.game = None
@@ -203,4 +228,8 @@ factory.clients = []
 factory.protocol = IphoneClient
 reactor.listenTCP(800, factory)
 print("Iphone server started")
+
+mmCycle = task.LoopingCall(cycleMmQueries)
+mmCycle.start(3.0) # call every 3 seconds
+
 reactor.run()
