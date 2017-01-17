@@ -82,8 +82,10 @@ class Game:
         if (self.accepted1 and self.accepted2):
             mm_games.append(self)
             mm_requests.remove(self)
-            self.player1.message("c")
-            self.player2.message("c")
+            self.addMessage(self.player1, "c")
+            self.addMessage(self.player2, "c")
+
+            print("yoloswag")
 
             firstPlayer = round(random.random() * 2)
             if (firstPlayer == 0):
