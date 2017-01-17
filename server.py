@@ -1,5 +1,6 @@
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
+import random
 
 class Game:
     def __init__(self, player1, player2):
@@ -83,6 +84,12 @@ class Game:
             mm_requests.remove(self)
             self.player1.message("c")
             self.player2.message("c")
+
+            firstPlayer = round(random.random() * 2)
+            if (firstPlayer == 0):
+                self.addMessage(self.player1, "<s")
+            else:
+                self.addMessage(self.player2, "<s")
 
     def endGame(self, endMessage):
         print("Ending game",self)
