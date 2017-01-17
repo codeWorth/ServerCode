@@ -1,6 +1,6 @@
 <?php
 
-$userID = $_GET['id'];
+$userID = $_POST['id'];
 
 $accounts = mysqli_connect("localhost", "user", "pbFMm5PY90tFTIpN", "accounts");
 
@@ -18,7 +18,5 @@ $stmt = $accounts->prepare("UPDATE players SET `Rank` = ? WHERE `ID`= ?");
 $stmt->bind_param('ss', $newrank, $userID);
 
 $stmt->execute();
-
-echo "$username,$rank";
 
 ?>

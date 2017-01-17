@@ -1,6 +1,6 @@
 <?php
 
-$userID = $_GET['id'];
+$userID = $_POST['id'];
 
 $accounts = mysqli_connect("localhost", "user", "pbFMm5PY90tFTIpN", "accounts");
 
