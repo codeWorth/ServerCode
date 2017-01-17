@@ -157,6 +157,9 @@ class IphoneClient(Protocol):
         
         for player in mm_queries[:-1]:
             if (player.rank == self.rank):
+                print("P1 Rank:", player.rank)
+                print("P2 Rank:", self.rank)
+                
                 game = Game(self, player)
                 mm_requests.append(game)
                 mm_queries.remove(self)
