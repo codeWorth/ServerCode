@@ -34,11 +34,8 @@ def cycleMmQueries():
 
         i += 1
 
-    print(mm_queries)
     for player in mm_queries:
-        print("eh")
         player.wantedRankDifference += 1.0/cyclesToWidenSearch
-        print(player.wantedRankDifference)
 
     threading.Timer(timePerCycle, cycleMmQueries).start()
 
