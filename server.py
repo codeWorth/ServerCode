@@ -181,8 +181,8 @@ class IphoneClient(Protocol):
             self.processQueueMessage(data)
 
     def message(self, message):
-        print("To", self, ":", message)
-        self.transport.write(message + '\n')
+        print("To", self, ":", message + "\n")
+        self.transport.write(message)
 
     def processControlMessage(self, message):
         if (message[1] == "p"):
