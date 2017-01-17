@@ -32,6 +32,8 @@ class Game:
                 self.history.append(msg)
             elif (msg[0] == "<"):
                 self.processMessageOnSend(msg, self.player1)
+            else:
+                self.player1.message(msg)
             
             self.canSend1 = False
 
@@ -89,9 +91,9 @@ class Game:
 
             firstPlayer = round(random.random() * 2)
             if (firstPlayer == 0):
-                self.addMessage(self.player1, "<s")
+                self.addMessage(self.player1, "<e")
             else:
-                self.addMessage(self.player2, "<s")
+                self.addMessage(self.player2, "<e")
 
     def endGame(self, endMessage):
         print("Ending game",self)
