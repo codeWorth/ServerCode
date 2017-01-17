@@ -3,9 +3,7 @@ from twisted.internet import reactor
 from twisted.internet import task
 import random
 
-cyclesToWidenSearch = 5
-
-timeout = 60.0 # Sixty seconds
+cyclesToWidenSearch = 2
 
 def cycleMmQueries():
     i = 0
@@ -35,6 +33,7 @@ def cycleMmQueries():
 
     for player in mm_queries:
         player.wantedRankDifference += 1.0/cyclesToWidenSearch
+        print(player.wantedRankDifference)
                 
 
                 
