@@ -28,7 +28,7 @@ def cycleMmQueries():
                 mm_queries.remove(player2)
 
                 j = i+1
-                player1 = mm_queue[i]
+                player1 = mm_queries[i]
             else:
                 j += 1
 
