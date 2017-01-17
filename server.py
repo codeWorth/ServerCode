@@ -13,19 +13,19 @@ def cycleMmQueries():
 
         player1 = mm_queries[i]
         j = i+1
-	while (j < len(mm_queries)):
-            
+        while (j < len(mm_queries)):
+
             player2 = mm_queries[j]
             thisRankDif = abs(player1.rank - player2.rank)
-            
+
             if (thisRankDif <= player1.wantedRankDifference and thisRankDif <= player2.wantedRankDifference):
-                print("P1 Rank:", player.rank) 
+                print("P1 Rank:", player.rank)
                 print("P2 Rank:", self.rank)
-                
+
                 game = Game(self, player)
-                
-                mm_requests.append(game) 
-                mm_queries.remove(self) 
+
+                mm_requests.append(game)
+                mm_queries.remove(self)
                 mm_queries.remove(player)
 
                 j = i+1
