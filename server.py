@@ -47,7 +47,7 @@ class Game:
             elif (msg[0] == "<"):
                 self.processMessageOnSend(msg, self.player2)
             else:
-                self.player1.message(msg)
+                self.player2.message(msg)
                 
             
             self.canSend2 = False
