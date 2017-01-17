@@ -89,7 +89,7 @@ class Game:
             self.addMessage(self.player1, "c" + self.player1.ID)
             self.addMessage(self.player2, "c" + self.player2.ID)
 
-            print("yoloswag")
+            print("Game created with", self.player1, "and", self.player2)
 
             firstPlayer = round(random.random() * 2)
             if (firstPlayer == 0):
@@ -130,6 +130,7 @@ class IphoneClient(Protocol):
         self.factory.clients.remove(self)
 
     def dataReceived(self, data):
+        print("From", self, ":", data)
         if(data[0] == "<"):
             self.processControlMessage(data)
         elif(data[0] == ">"):
@@ -138,6 +139,7 @@ class IphoneClient(Protocol):
             self.processQueueMessage(data)
 
     def message(self, message):
+        print("To", self, ":", message)
         self.transport.write(message + '\n')
 
     def processControlMessage(self, message):
