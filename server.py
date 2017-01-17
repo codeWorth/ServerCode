@@ -114,7 +114,6 @@ class Game:
 
 class IphoneClient(Protocol):
     rank = 0
-    name = ""
     ID = 0
     game = None
     isP1 = False
@@ -179,7 +178,6 @@ class IphoneClient(Protocol):
             username = parts[1]
             
             self.rank = int(info[2:])
-            self.name = username
 
             self.attemptMatchPlayer()
         elif (message[1] == 'a'):
