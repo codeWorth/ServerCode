@@ -46,6 +46,8 @@ class Game:
                 self.history.append(msg)
             elif (msg[0] == "<"):
                 self.processMessageOnSend(msg, self.player2)
+            else:
+                self.player1.message(msg)
                 
             
             self.canSend2 = False
