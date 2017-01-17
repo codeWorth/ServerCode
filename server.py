@@ -190,6 +190,7 @@ class IphoneClient(Protocol):
         elif (message[1] == 'c'):
             if (self.game == None):
                 mm_queries.remove(self)
+                print("Player", self, "removed from queries")
             else:
                 self.game.endGame("r")
 
