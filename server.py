@@ -6,9 +6,7 @@ import random
 cyclesToWidenSearch = 2
 timePerCycle = 3.0
 
-def cycleMmQueries():
-    print("ye")
-    
+def cycleMmQueries():    
     i = 0
     while (i < len(mm_queries)):
 
