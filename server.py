@@ -1,9 +1,10 @@
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
-from twisted.internet import task
+import time, threading
 import random
 
 cyclesToWidenSearch = 2
+timePerCycle = 3.0
 
 def cycleMmQueries():
     i = 0
@@ -34,7 +35,8 @@ def cycleMmQueries():
     for player in mm_queries:
         player.wantedRankDifference += 1.0/cyclesToWidenSearch
         print(player.wantedRankDifference)
-                
+
+    threading.Timer(timePerCycle, cycleMmQueries).start()
 
                 
 class Game:
@@ -226,7 +228,6 @@ factory.protocol = IphoneClient
 reactor.listenTCP(800, factory)
 print("Iphone server started")
 
-mmCycle = task.LoopingCall(cycleMmQueries)
-mmCycle.start(3.0) # call every 3 seconds
+cycleMmQueries()
 
 reactor.run()
