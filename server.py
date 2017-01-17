@@ -86,8 +86,8 @@ class Game:
         if (self.accepted1 and self.accepted2):
             mm_games.append(self)
             mm_requests.remove(self)
-            self.addMessage(self.player1, "c")
-            self.addMessage(self.player2, "c")
+            self.addMessage(self.player1, "c" + self.player1.ID)
+            self.addMessage(self.player2, "c" + self.player2.ID)
 
             print("yoloswag")
 
@@ -115,6 +115,7 @@ class Game:
 class IphoneClient(Protocol):
     rank = 0
     name = ""
+    ID = 0
     game = None
     isP1 = False
     
@@ -181,6 +182,7 @@ class IphoneClient(Protocol):
             self.attemptMatchPlayer()
         elif (message[1] == 'a'):
             if (self.game):
+                self.ID = message[2:]
                 self.game.playerAccepted(self)
             else:
                 print("Error, no game in list for player", self)
