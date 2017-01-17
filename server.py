@@ -27,6 +27,10 @@ def cycleMmQueries():
                 mm_queries.remove(player1)
                 mm_queries.remove(player2)
 
+                self.message("j")
+                player.message("j")
+                print("Match request created, players:", self, player)
+
                 j = i+1
 
                 if (i < len(mm_queries)):
