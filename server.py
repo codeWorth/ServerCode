@@ -7,6 +7,8 @@ cyclesToWidenSearch = 2
 timePerCycle = 3.0
 
 def cycleMmQueries():
+    print("ye")
+    
     i = 0
     while (i < len(mm_queries)):
 
