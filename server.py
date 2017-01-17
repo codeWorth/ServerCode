@@ -21,11 +21,11 @@ def cycleMmQueries():
                 print("P1 Rank:", player1.rank)
                 print("P2 Rank:", player2.rank)
 
-                game = Game(self, player)
+                game = Game(player1, player2)
 
                 mm_requests.append(game)
-                mm_queries.remove(self)
-                mm_queries.remove(player)
+                mm_queries.remove(player1)
+                mm_queries.remove(player2)
 
                 j = i+1
                 player1 = mm_queue[i]
