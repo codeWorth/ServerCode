@@ -58,6 +58,11 @@ class Game:
         self.player1.game = self
         self.player1.isP1 = True
         self.player2.game = self
+        self.timer = Timer(180, self.timeout)
+        self.timer.start()
+
+    def timeout(self):
+        self.endGame("<q")
 
     def processMessageOnSend(self, message, destPlayer):
         if (message[1] == "q"):
@@ -95,6 +100,10 @@ class Game:
             self.canSend2 = False
 
     def addMessage(self, player, message):
+        self.timer.cancel()
+        self.timer = Timer(180, self.timeout)
+        self.timer.start()
+        
         if (player.isP1):
             self.player2Pending.append(message)
             self.tryPopPending2()
@@ -141,7 +150,7 @@ class Game:
 
     def endGame(self, endMessage):
         print("Ending game",self)
-        
+
         self.player1.message(endMessage)
         self.player2.message(endMessage)
         
