@@ -6,6 +6,7 @@ import random
 
 cyclesToWidenSearch = 2
 timePerCycle = 3.0
+timeToDestroyGame = 600
 
 def cycleMmQueries():    
     i = 0
@@ -59,7 +60,7 @@ class Game:
         self.player1.game = self
         self.player1.isP1 = True
         self.player2.game = self
-        self.timer = Timer(180, self.timeout)
+        self.timer = Timer(timeToDestroyGame, self.timeout)
         self.timer.start()
 
     def timeout(self):
@@ -102,7 +103,7 @@ class Game:
 
     def addMessage(self, player, message):
         self.timer.cancel()
-        self.timer = Timer(180, self.timeout)
+        self.timer = Timer(timeToDestroyGame, self.timeout)
         self.timer.start()
         
         if (player.isP1):
