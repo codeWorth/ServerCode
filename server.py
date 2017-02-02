@@ -200,6 +200,7 @@ class IphoneClient(Protocol):
         print("clients are ", self.factory.clients)
 
     def connectionLost(self, reason):
+	print("a client disconnected")
         self.factory.clients.remove(self)
 
     def dataReceived(self, data):
