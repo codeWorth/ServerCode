@@ -9,6 +9,9 @@ timePerCycle = 3.0
 timeToDestroyGame = 600
 resendTime = 5
 
+def error():
+    print("This function wasn't supposed to run!")
+
 def cycleMmQueries():    
     i = 0
     while (i < len(mm_queries)):
@@ -181,7 +184,7 @@ class IphoneClient(Protocol):
     ID = 0
     game = None
     isP1 = False
-    timer = Timer(resendTime, self.sendRepeated, (None, ""))
+    timer = Timer(resendTime, error)
     
     def connectionMade(self):
         print("a client connected")
@@ -213,7 +216,7 @@ class IphoneClient(Protocol):
             timer.start()
             return timer
 
-        return Timer(resendTime, self.sendRepeated, (None, ""))
+        return Timer(resendTime, error)
 
     def processControlMessage(self, message):
         if (message[1] == "p"):
