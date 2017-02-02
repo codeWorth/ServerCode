@@ -65,8 +65,8 @@ class Game:
         self.timer.start()
         self.p1Sent = False
         self.p2Sent = False
-        self.resendP1Timer = Timer(resendTime, self.sendAgain, (None, ""))
-        self.resendP2Timer = Timer(resendTime, self.sendAgain, (None, ""))
+        self.resendP1Timer = Timer(resendTime, self.sendRepeated, (None, ""))
+        self.resendP2Timer = Timer(resendTime, self.sendRepeated, (None, ""))
 
     def timeout(self):
         self.endGame("<q")
@@ -87,7 +87,7 @@ class Game:
             timer.start()
             return timer
 
-        return Timer(resendTime, self.sendAgain, (None, ""))
+        return Timer(resendTime, self.sendRepeated, (None, ""))
 
     def processMessageOnSend(self, message, destPlayer):
         if (message[1] == "q"):
@@ -200,7 +200,6 @@ class IphoneClient(Protocol):
         print("clients are ", self.factory.clients)
 
     def connectionLost(self, reason):
-	print("a client disconnected")
         self.factory.clients.remove(self)
 
     def dataReceived(self, data):
