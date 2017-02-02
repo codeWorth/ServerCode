@@ -100,7 +100,6 @@ class Game:
             msg = self.player1Pending[0]
             self.p1Sent = True
 
-            self.resendP1Timer.cancel()
             self.resendP1Timer = self.sendRepeated(self.player1, msg)
             self.canSend1 = False
 
@@ -109,7 +108,7 @@ class Game:
             msg = self.player2Pending[0]
             self.p2Sent = True
 
-            self.resendP2Timer.cancel()
+            
             self.resendP2Timer = self.sendRepeated(self.player2, msg)
             self.canSend2 = False
 
@@ -126,17 +125,20 @@ class Game:
             self.tryPopPending1()
         
     def recievedConfirm(self, player):
+        print(player, "confirmed")
         if (player.isP1):
             self.canSend1 = True
+            self.resendP1Timer.cancel()
             if (len(self.player1Pending) > 0 and self.p1Sent):
-                self.player1Pending.remove(0)
+                self.player1Pending.pop(0)
                 self.p1Sent = False
                 
             self.tryPopPending1()
         else:
             self.canSend2 = True
+            self.resendP2Timer.cancel()
             if (len(self.player2Pending) > 0 and self.p2Sent):
-                self.player2Pending.remove(0)
+                self.player2Pending.pop(0)
                 self.p2Sent = False
                 
             self.tryPopPending2()
