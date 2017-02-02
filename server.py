@@ -62,6 +62,8 @@ class Game:
         self.player2.game = self
         self.timer = Timer(timeToDestroyGame, self.timeout)
         self.timer.start()
+        self.p1Sent = False
+        self.p2Sent = False
 
     def timeout(self):
         self.endGame("<q")
@@ -74,7 +76,8 @@ class Game:
 
     def tryPopPending1(self):
         if (self.canSend1 and len(self.player1Pending) > 0):
-            msg = self.player1Pending.pop(0)
+            msg = self.player1Pending[0]
+            self.p1Sent = True
             
             if (msg[0] == ">"):
                 self.player1.message(msg)
@@ -88,7 +91,8 @@ class Game:
 
     def tryPopPending2(self):
         if (self.canSend2 and len(self.player2Pending) > 0):
-            msg = self.player2Pending.pop(0)
+            msg = self.player2Pending[0]
+            self.p2Sent = True
             
             if (msg[0] == ">"):
                 self.player2.message(msg)
@@ -116,9 +120,17 @@ class Game:
     def recievedConfirm(self, player):
         if (player.isP1):
             self.canSend1 = True
+            if (len(self.player1Pending) > 0 and self.p1Sent):
+                self.player1Pending.remove(0)
+                self.p1Sent = False
+                
             self.tryPopPending1()
         else:
             self.canSend2 = True
+            if (len(self.player2Pending) > 0 and self.p2Sent):
+                self.player2Pending.remove(0)
+                self.p2Sent = False
+                
             self.tryPopPending2()
         
 
