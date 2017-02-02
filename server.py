@@ -100,8 +100,8 @@ class Game:
             msg = self.player1Pending[0]
             self.p1Sent = True
 
-            self.resend1Timer.cancel()
-            self.resend1Timer = self.sendRepeated(self.player1, msg)
+            self.resendP1Timer.cancel()
+            self.resendP1Timer = self.sendRepeated(self.player1, msg)
             self.canSend1 = False
 
     def tryPopPending2(self):
@@ -109,8 +109,8 @@ class Game:
             msg = self.player2Pending[0]
             self.p2Sent = True
 
-            self.resend2Timer.cancel()
-            self.resend2Timer = self.sendRepeated(self.player2, msg)
+            self.resendP2Timer.cancel()
+            self.resendP2Timer = self.sendRepeated(self.player2, msg)
             self.canSend2 = False
 
     def addMessage(self, player, message):
