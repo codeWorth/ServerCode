@@ -7,6 +7,7 @@ import random
 cyclesToWidenSearch = 2
 timePerCycle = 3.0
 timeToDestroyGame = 600
+resendTime = 5
 
 def cycleMmQueries():    
     i = 0
@@ -64,9 +65,29 @@ class Game:
         self.timer.start()
         self.p1Sent = False
         self.p2Sent = False
+        self.resendP1Timer = Timer(resendTime, self.sendAgain, (None, ""))
+        self.resendP2Timer = Timer(resendTime, self.sendAgain, (None, ""))
 
     def timeout(self):
         self.endGame("<q")
+
+    def send(self, player, msg):
+        if (msg[0] == ">"):
+            player.message(msg)
+            self.history.append(msg)
+        elif (msg[0] == "<"):
+            self.processMessageOnSend(msg, player)
+        else:
+            player.message(msg)
+
+    def sendRepeated(self, player, message):
+        if (player):
+            send(player, message)
+            timer = Timer(resendTime, self.sendRepeated, (player, message))
+            timer.start()
+            return timer
+
+        return Timer(resendTime, self.sendAgain, (None, ""))
 
     def processMessageOnSend(self, message, destPlayer):
         if (message[1] == "q"):
@@ -78,31 +99,18 @@ class Game:
         if (self.canSend1 and len(self.player1Pending) > 0):
             msg = self.player1Pending[0]
             self.p1Sent = True
-            
-            if (msg[0] == ">"):
-                self.player1.message(msg)
-                self.history.append(msg)
-            elif (msg[0] == "<"):
-                self.processMessageOnSend(msg, self.player1)
-            else:
-                self.player1.message(msg)
-            
+
+            self.resend1Timer.cancel()
+            self.resend1Timer = self.sendRepeated(self.player1, msg)
             self.canSend1 = False
 
     def tryPopPending2(self):
         if (self.canSend2 and len(self.player2Pending) > 0):
             msg = self.player2Pending[0]
             self.p2Sent = True
-            
-            if (msg[0] == ">"):
-                self.player2.message(msg)
-                self.history.append(msg)
-            elif (msg[0] == "<"):
-                self.processMessageOnSend(msg, self.player2)
-            else:
-                self.player2.message(msg)
-                
-            
+
+            self.resend2Timer.cancel()
+            self.resend2Timer = self.sendRepeated(self.player2, msg)
             self.canSend2 = False
 
     def addMessage(self, player, message):
