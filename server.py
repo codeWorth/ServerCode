@@ -82,7 +82,7 @@ class Game:
 
     def sendRepeated(self, player, message):
         if (player):
-            send(player, message)
+            self.send(player, message)
             timer = Timer(resendTime, self.sendRepeated, (player, message))
             timer.start()
             return timer
