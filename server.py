@@ -65,8 +65,6 @@ class Game:
         self.timer.start()
         self.p1Sent = False
         self.p2Sent = False
-        self.resendP1Timer = Timer(resendTime, self.sendRepeated, (None, ""))
-        self.resendP2Timer = Timer(resendTime, self.sendRepeated, (None, ""))
 
     def timeout(self):
         self.endGame("<q")
@@ -80,15 +78,6 @@ class Game:
         else:
             player.message(msg)
 
-    def sendRepeated(self, player, message):
-        if (player):
-            self.send(player, message)
-            timer = Timer(resendTime, self.sendRepeated, (player, message))
-            timer.start()
-            return timer
-
-        return Timer(resendTime, self.sendRepeated, (None, ""))
-
     def processMessageOnSend(self, message, destPlayer):
         if (message[1] == "q"):
             self.endGame(message)
@@ -100,7 +89,7 @@ class Game:
             msg = self.player1Pending[0]
             self.p1Sent = True
 
-            self.resendP1Timer = self.sendRepeated(self.player1, msg)
+            self.send(self.player1, msg)
             self.canSend1 = False
 
     def tryPopPending2(self):
@@ -109,7 +98,7 @@ class Game:
             self.p2Sent = True
 
             
-            self.resendP2Timer = self.sendRepeated(self.player2, msg)
+            self.send(self.player1, msg)
             self.canSend2 = False
 
     def addMessage(self, player, message):
@@ -125,10 +114,10 @@ class Game:
             self.tryPopPending1()
         
     def recievedConfirm(self, player):
-        print(player, "confirmed")
+        player.timer.cancel()
+        
         if (player.isP1):
             self.canSend1 = True
-            self.resendP1Timer.cancel()
             if (len(self.player1Pending) > 0 and self.p1Sent):
                 self.player1Pending.pop(0)
                 self.p1Sent = False
@@ -136,7 +125,6 @@ class Game:
             self.tryPopPending1()
         else:
             self.canSend2 = True
-            self.resendP2Timer.cancel()
             if (len(self.player2Pending) > 0 and self.p2Sent):
                 self.player2Pending.pop(0)
                 self.p2Sent = False
@@ -193,6 +181,7 @@ class IphoneClient(Protocol):
     ID = 0
     game = None
     isP1 = False
+    timer = Timer(resendTime, self.sendRepeated, (None, ""))
     
     def connectionMade(self):
         print("a client connected")
@@ -215,7 +204,16 @@ class IphoneClient(Protocol):
 
     def message(self, message):
         print("To", self, ":", message)
-        self.transport.write(message)
+        self.timer = self.messageRepeated(message)
+
+    def messageRepeated(self, message):
+        if (message):
+            self.transport.write(message)
+            timer = Timer(resendTime, self.message, (message,))
+            timer.start()
+            return timer
+
+        return Timer(resendTime, self.sendRepeated, (None, ""))
 
     def processControlMessage(self, message):
         if (message[1] == "p"):
