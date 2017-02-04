@@ -101,7 +101,7 @@ class Game:
             self.p2Sent = True
 
             
-            self.send(self.player1, msg)
+            self.send(self.player2, msg)
             self.canSend2 = False
 
     def addMessage(self, player, message):
